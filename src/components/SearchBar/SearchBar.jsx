@@ -1,32 +1,39 @@
-import React, {useState, useContext} from 'react'
+import React, { useState, useContext } from "react";
 import { CiSearch } from "react-icons/ci";
 
-import './SearchBar.css';
-import fetchProducts from '../../api/fetchProducts';
-import AppContext from '../../context/AppContext';
+import "./SearchBar.css";
+import fetchProducts from "../../api/fetchProducts";
+import AppContext from "../../context/AppContext";
 
 function SearchBar() {
+  const [searchValue, setSearchValue] = useState("");
 
-  const [searchValue, setSearchValue] = useState('');
-
-  const { setProducts } = useContext(AppContext);
+  const { setProducts, setLoading } = useContext(AppContext);
 
   const handleSearch = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     const products = await fetchProducts(searchValue);
-    setProducts(products)
-    setSearchValue('');
-  }
+    setProducts(products);
+    setLoading(false);
+    setSearchValue("");
+  };
 
   return (
-    <form className='search-bar' onSubmit={handleSearch}>
-        <input type="search" value={searchValue} placeholder='Buscar produtos' className='search__input' required onChange={(e) => setSearchValue(e.target.value)} />
-        <button type='submit' className='search__button'>
-            <CiSearch />
-        </button>
-    </form> 
-  )
+    <form className="search-bar" onSubmit={handleSearch}>
+      <input
+        type="search"
+        value={searchValue}
+        placeholder="Buscar produtos"
+        className="search__input"
+        required
+        onChange={(e) => setSearchValue(e.target.value)}
+      />
+      <button type="submit" className="search__button">
+        <CiSearch />
+      </button>
+    </form>
+  );
 }
 
-export default SearchBar
+export default SearchBar;
