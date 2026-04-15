@@ -9,7 +9,7 @@ function Products() {
   const { products, setProducts, loading, setLoading } = useContext(AppContext);
 
   useEffect(() => {
-    fetchProducts("iphone").then((response) => {
+    fetchProducts("").then((response) => {
       setProducts(response);
       setLoading(false);
     });
